@@ -11,7 +11,8 @@ same rules and skill.
 The skill and its engine are [Barty-Bart/motion-graphics](https://github.com/Barty-Bart/motion-graphics)
 (MIT), copied unchanged. This repo adds house rules in `CLAUDE.md` (your
 brand's look instead of the default palette, no invented numbers on screen, a
-phone-size check) and one folder per edit, where the plan and clips are kept in
+phone-size check, a stop to approve stills before the slow render, the 9:16
+safe zone) and one folder per edit, where the plan and clips are kept in
 git and the footage stays on your machine.
 
 Making a film from nothing in code instead (launch reel, teaser, promo)? That's
@@ -29,11 +30,11 @@ bash .claude/skills/motion-broll/scripts/setup.sh "$PWD/edits/my-talk"   # once 
 ```
 
 The skill asks a few questions (how dense, which look, what to leave alone),
-shows a plan with one row per clip for you to approve, then builds, checks
-stills on the key words and renders. Everything lands in `edits/my-talk/out/`:
-the clips, named by their in-point, `TIMING.md`, `preview.mp4`, `viewer.html`
-and `compare.html`. The preview is for review: place the clips in your own
-editor for the final cut.
+shows a plan with one row per clip for you to approve, then builds and shows
+you stills on the key words to approve before it renders. Everything lands in
+`edits/my-talk/out/`: the clips, named by their in-point, `TIMING.md`,
+`preview.mp4`, `viewer.html` and `compare.html`. The preview is for review:
+place the clips in your own editor for the final cut.
 
 ## Structure
 

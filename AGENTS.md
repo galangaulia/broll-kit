@@ -14,6 +14,6 @@ Claude Code first. Start here.
 
 ## Where the rules assume Claude Code
 
-- **The `/motion-broll` skill** is linked at `.agents/skills/motion-broll` for tools that load skills from there (Codex, Gemini CLI). If yours doesn't, read the file above when someone hands over a video and asks for B-roll, motion graphics or overlays, and follow its steps in order, the stop for plan approval included. `$SKILL` in it means `.claude/skills/motion-broll`.
+- **The `/motion-broll` skill** is linked at `.agents/skills/motion-broll` for tools that load skills from there (Codex, Gemini CLI). If yours doesn't, read the file above when someone hands over a video and asks for B-roll, motion graphics or overlays, and follow its steps in order, the stops for plan and stills approval included (`CLAUDE.md` adds the second). `$SKILL` in it means `.claude/skills/motion-broll`.
 - **AskUserQuestion** (the interview): ask the same questions in one message and wait for the answers.
 - **Looking at stills**: the skill checks contact sheets of PNG stills. If your tool can't open images, hand the sheets to the user instead of skipping the check.
