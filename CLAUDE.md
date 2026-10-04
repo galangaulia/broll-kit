@@ -22,19 +22,34 @@ different job: they live in [motion-kit](https://github.com/galangaulia/motion-k
 - Needs Node, Python 3 + numpy, and a full ffmpeg with `prores_ks` (transparent panels are ProRes 4444). Remotion's bundled ffmpeg lacks `overlay`, `fps` and `tmix`, so it won't do.
 - Once per edit: `bash .claude/skills/motion-broll/scripts/setup.sh "$PWD/edits/<slug>"` (an absolute path: upstream's script fails on a relative one), then put the source video and its SRT in `edits/<slug>/inputs/`.
 
+## Workflow
+
+Two stops, not one. The skill stops for the plan (its step 4); stop again
+after the stills (step 6). Once the sheets look right to you, show them to the
+user and wait for a yes before rendering (step 7): a render takes four
+subframes per frame, so a wrong look costs a whole render to find.
+
 ## Look
 
 - When a brand is given, colour, type and logo come from it alone, never the skill's default palette. Copy its tokens, fonts and logo into the edit's `inputs/` and pass them in at the skill's interview. A brand kept in motion-kit has them in `brands/<name>/` there.
 - One accent colour, the brand's UI face (plus a mono face for code and file names), unless the edit asks for more.
 - Show the real product. Capture it instead of rebuilding it from memory; a screen that has to be rebuilt is listed in `plan.json` → `notes` as recreated, so it shows up in `TIMING.md`.
 - Check the stills at 360 px wide, the size of a phone feed. When something doesn't read, cut words before shrinking type.
-- Steer clear of the stock-template look. Some usual suspects: confetti or particle bursts; glitch, spin and light-leak transitions; UI that wobbles; glowing buttons and panels; a lone headline centred on a gradient.
+- No words leave before they can be read: about three words a second, plus half a second. The speaker keeps talking, so a label that flashes past is lost; give it fewer words rather than less time.
+- In a 9:16 edit, words, the product and what the cursor points at stay clear of the apps' own buttons and captions: the top 14 %, the bottom 35 % and 6 % at each side (Meta's Reels guidance), and on the right about 18 % from 45 % down, where TikTok's and Shorts' buttons sit. Check the stills against those bands.
+- Steer clear of the stock-template look. Some usual suspects: confetti or particle bursts; glitch, spin and light-leak transitions; UI that wobbles; glowing buttons and panels; a lone headline centred on a gradient. Glass and refraction only when the product's own UI has them, and then capture it.
 - Nothing flashes more than three times a second (WCAG 2.3.1).
 
 ## Truth
 
 - Never invent numbers, results, prices, quotes, customers or logos on screen. Use what the speaker says or the owner hands over; otherwise relative bars, skeleton lines or words from the transcript, listed as illustrative in `plan.json` → `notes`.
 - A brand with a `brand.json` (motion-kit) brings its voice and proof rules: follow them.
+
+## Gotchas (on top of the skill's)
+
+- Never put `opacity` or `filter` on a `preserve-3d` element: it flattens and both faces show. Fade its wrapper.
+- Inside a hidden parent, children use `visibility: inherit`; `visible` shows through.
+- Words hand over through the engine's content swap (`M.vis`) or a mask, never by morphing one glyph's outline into another.
 
 ## Commands
 
