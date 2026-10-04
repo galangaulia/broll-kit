@@ -1,0 +1,14 @@
+# vendor/
+
+Third-party kits kept for reference. Everything here except this file is
+git-ignored: fetch them by hand, read them, and check each kit's licence
+before reusing any of its code or text. A kit without a licence is all rights
+reserved: read it, never copy from it.
+
+| Folder | Source | Licence | Use |
+|---|---|---|---|
+| `motion-graphics/` | https://github.com/Barty-Bart/motion-graphics | MIT | Upstream of `.claude/skills/motion-broll`. Clone it only to update that copy (see its `UPSTREAM.md`). |
+
+```bash
+git clone https://github.com/Barty-Bart/motion-graphics vendor/motion-graphics
+```

@@ -1,0 +1,24 @@
+node_modules/
+.DS_Store
+
+# Third-party kits are read-only references, fetched by hand (see vendor/README.md).
+vendor/*
+!vendor/README.md
+
+# Private work (your own or a client's footage) is its own git repo, laid out like this one.
+studio/
+CLAUDE.local.md
+
+# Claude Code local state; the skill in .claude/skills is committed.
+.claude/scheduled_tasks.lock
+.claude/settings.local.json
+
+# Edits: the clips, plan and TIMING.md are committed; footage, renders and
+# the per-edit Playwright install are not.
+edits/*/inputs/
+edits/*/work/
+edits/*/dist/
+edits/*/out/*
+!edits/*/out/TIMING.md
+edits/*/package.json
+edits/*/package-lock.json
