@@ -4,7 +4,9 @@ Motion-graphic B-roll for a talking-head video you already have, timed to your
 words. Open [Claude Code](https://claude.com/claude-code) in this folder, drop
 in a video and its transcript, and run `/motion-broll`. You get full-frame
 cutaways, or transparent ProRes panels for the empty space beside you, plus a
-preview cut and a before/after page.
+preview cut and a before/after page. Codex, Gemini CLI, Cursor or Copilot work
+too: they start from `AGENTS.md` (Gemini from `GEMINI.md`), which points to the
+same rules and skill.
 
 The skill and its engine are [Barty-Bart/motion-graphics](https://github.com/Barty-Bart/motion-graphics)
 (MIT), copied unchanged. This repo adds house rules in `CLAUDE.md` (your
@@ -37,7 +39,8 @@ editor for the final cut.
 
 ```text
 CLAUDE.md                      house rules (look, truth, layout)
-.claude/skills/motion-broll/   the skill and its engine (upstream copy, see UPSTREAM.md)
+AGENTS.md · GEMINI.md          the way in for other agents (Codex, Gemini CLI, Cursor, Copilot)
+.claude/skills/motion-broll/   the skill and its engine (upstream copy, see UPSTREAM.md), linked from .agents/skills/
 edits/<slug>/                  one video per folder, made by setup.sh
   inputs/                      footage, transcript, brand files    (not committed)
   clips/*.html · plan.json     the clips and the plan              (committed)

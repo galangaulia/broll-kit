@@ -12,6 +12,7 @@ different job: they live in [motion-kit](https://github.com/galangaulia/motion-k
 ## Layout
 
 - `.claude/skills/motion-broll` the skill and its HTML engine, a plain copy of upstream. Don't edit its files in place (`UPSTREAM.md` says how to update); house-specific choices go in this file.
+- `AGENTS.md`, `GEMINI.md`, `.agents/skills/` the way in for other agents (Codex, Gemini CLI, Cursor, Copilot). When a rule here starts leaning on a Claude Code feature, say in `AGENTS.md` how to do it without one.
 - `edits/<slug>` one video per folder, used as the skill's `motion/` folder. Committed: `clips/*.html`, `plan.json`, `out/TIMING.md`. Not committed: `inputs/` (footage, transcript, brand files), `work/`, `dist/`, the rest of `out/`, and the Playwright install.
 - `vendor/` third-party kits, read-only, git-ignored. Check each one's licence before reusing anything (see `vendor/README.md`); a kit without a licence is reference only.
 - `studio/` optional private work with the same layout (`studio/edits/<slug>`), in its own git repo and ignored here. Never `git add -f` anything under it. Edits of a real person's footage belong there, not in the kit.
