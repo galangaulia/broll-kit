@@ -22,3 +22,6 @@ edits/*/out/*
 !edits/*/out/TIMING.md
 edits/*/package.json
 edits/*/package-lock.json
+
+# The object-separation skill's venv (torch). Its masks land in work/, ignored above.
+edits/*/.object-separation/
