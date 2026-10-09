@@ -12,6 +12,8 @@ different job: they live in [motion-kit](https://github.com/galangaulia/motion-k
 ## Layout
 
 - `.claude/skills/motion-broll` the skill and its HTML engine, a plain copy of upstream. Don't edit its files in place (`UPSTREAM.md` says how to update); house-specific choices go in this file.
+- `.claude/skills/object-separation` a second upstream copy, same author and licence: separates a person, product or hand from the background with SAM 2.1, on this machine. Same rule, don't edit it. What this house does with its masks is "Cut-outs" below.
+- `scripts/` this repo's own tools, not upstream's. `cutout.py` turns those masks into a cut-out with alpha that the composite can stack.
 - `AGENTS.md`, `GEMINI.md`, `.agents/skills/` the way in for other agents (Codex, Gemini CLI, Cursor, Copilot). When a rule here starts leaning on a Claude Code feature, say in `AGENTS.md` how to do it without one.
 - `edits/<slug>` one video per folder, used as the skill's `motion/` folder. Committed: `clips/*.html`, `plan.json`, `out/TIMING.md`. Not committed: `inputs/` (footage, transcript, brand files), `work/`, `dist/`, the rest of `out/`, and the Playwright install.
 - `vendor/` third-party kits, read-only, git-ignored. Check each one's licence before reusing anything (see `vendor/README.md`); a kit without a licence is reference only.
@@ -21,6 +23,7 @@ different job: they live in [motion-kit](https://github.com/galangaulia/motion-k
 
 - Needs Node, Python 3 + numpy, and a full ffmpeg with `prores_ks` (transparent panels are ProRes 4444). Remotion's bundled ffmpeg lacks `overlay`, `fps` and `tmix`, so it won't do.
 - Once per edit: `bash .claude/skills/motion-broll/scripts/setup.sh "$PWD/edits/<slug>"` (an absolute path: upstream's script fails on a relative one), then put the source video and its SRT in `edits/<slug>/inputs/`.
+- Only for cut-outs: the object-separation skill builds its own `.object-separation` venv (torch, transformers) and downloads a SAM 2.1 model the first time. Build the venv inside the edit folder, where `.gitignore` covers it, and never at the repo root. Both are disposable; its `SKILL.md` says how to delete them.
 
 ## Workflow
 
@@ -40,6 +43,22 @@ subframes per frame, so a wrong look costs a whole render to find.
 - Steer clear of the stock-template look. Some usual suspects: confetti or particle bursts; glitch, spin and light-leak transitions; UI that wobbles; glowing buttons and panels; a lone headline centred on a gradient. Glass and refraction only when the product's own UI has them, and then capture it.
 - Nothing flashes more than three times a second (WCAG 2.3.1).
 
+## Cut-outs (a clip behind the speaker)
+
+Every clip the skill makes sits in front of the speaker: `composite.py` overlays
+them on the source in order. A cut-out buys the one thing that order can't — a
+graphic that passes *behind* them, which they can turn and gesture at — and it
+rescues a label that the speaker's head would otherwise cover.
+
+- In front is the default and needs no cut-out. Behind is a deliberate choice, so it belongs in `plan.json` → `notes` for that clip ("behind the speaker"), where the plan stop can catch it. Don't decide it during the build.
+- Per shot, not per edit. Separate only the span that needs it: it costs minutes a shot on Apple Silicon and about five seconds a frame on a plain CPU.
+- The order is: run the object-separation skill on that span → its masks to `edits/<slug>/work/masks/<subject>/` → `scripts/cutout.py` → `work/<subject>.mov` → add that `.mov` to `plan.json` → `clips` **last** among the clips covering the span, so it lands on top.
+- The skill's masks are hard-edged, binary and 960 px wide: a mask, not a matte. `cutout.py` is what makes them composite-grade (back to source resolution, averaged over frames so the edge stops chattering, feathered, eroded a px to drop the background fringe). Don't feed raw masks to the composite.
+- Check `cutout.py --stills` at 100 % before rendering, as part of the stills stop. A halo or a stair-stepped edge means more `--shrink` or `--feather`; an edge that flickers between frames means more `--smooth`.
+- Hair is where SAM 2 gives up. A medium shot is usually clean; a close-up may not be. If the edge won't come good in two tries, drop the idea and put the graphic beside the speaker instead. A crawling edge reads as broken, and shipping one costs more than the shot is worth.
+- A cut-out of a real person's footage is private work: it belongs in `studio/`, like the footage it came from.
+- `cutout.py` picks its encoder from the output extension. `.mov` is ProRes 4444, for the composite here. `.webm` is VP9 with alpha, which is what a [motion-kit](https://github.com/galangaulia/motion-kit) film's `public/clips/` takes — the same encoder settings it uses for its own clips, so a cut-out made here can go into a film made from nothing in code.
+
 ## Truth
 
 - Never invent numbers, results, prices, quotes, customers or logos on screen. Use what the speaker says or the owner hands over; otherwise relative bars, skeleton lines or words from the transcript, listed as illustrative in `plan.json` → `notes`.
@@ -56,4 +75,10 @@ subframes per frame, so a wrong look costs a whole render to find.
 ```bash
 bash .claude/skills/motion-broll/scripts/setup.sh "$PWD/edits/<slug>"   # once per edit; absolute path
 # video + .srt (and brand files) → edits/<slug>/inputs/, then in Claude Code: /motion-broll
+
+# a clip behind the speaker: /object-separation on the span, then its masks →
+python3 scripts/cutout.py edits/<slug>/inputs/talk.mp4 \
+  --masks edits/<slug>/work/masks/speaker --range 240-329 \
+  --out edits/<slug>/work/speaker.mov --stills edits/<slug>/work/cutout
+python3 scripts/cutout.py --help      # --smooth, --feather, --shrink
 ```
