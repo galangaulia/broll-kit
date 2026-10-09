@@ -1,7 +1,7 @@
 # Upstream
 
 This skill is copied unchanged from [Barty-Bart/motion-graphics](https://github.com/Barty-Bart/motion-graphics)
-(`skills/motion-broll`), commit `e8d610adcf946367430c8b43a97aad8059befaad`, on 2026-10-03. MIT licence, © 2026 Bart: see `LICENSE`
+(`skills/motion-broll`), commit `83355bb58f78cdb486d6a00f6cfa22e40e538f03`, on 2026-10-09 (its files are unchanged since `e8d610a`). MIT licence, © 2026 Bart: see `LICENSE`
 in this folder. Geist fonts: SIL Open Font License (`engine/fonts/OFL-Geist.txt`). Icon paths adapted
 from Lucide (ISC), per the upstream README: its licence is in `LICENSE-lucide`.
 
