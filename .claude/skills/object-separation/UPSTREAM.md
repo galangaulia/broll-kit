@@ -1,7 +1,7 @@
 # Upstream
 
 This skill is copied unchanged from [Barty-Bart/motion-graphics](https://github.com/Barty-Bart/motion-graphics)
-(`skills/object-separation`), commit `83355bb58f78cdb486d6a00f6cfa22e40e538f03`, on 2026-10-09. MIT licence,
+(`skills/object-separation`), commit `3d83d987d658601d8a1269eb691622bdcd427335`, on 2026-10-16 (its files are unchanged since `83355bb`). MIT licence,
 © 2026 Bart: see `LICENSE` in this folder.
 
 One file is added here, and nothing is changed: `UPSTREAM.md`. The skill itself is a single `SKILL.md`
